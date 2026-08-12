@@ -1,5 +1,7 @@
 import { castRays } from './raycast.js';
 import { clearScreen, setCell } from './asciiScreen.js';
+import { drawWeapon } from './weapon.js'; // 1. Add import!
+
 
 // ASCII Ramp with Slope Anti-aliasing Glyphs ('/', '\', '-')
 export const ASCII_RAMP = " #%-|=+*@W.O/\\0$_~^";
@@ -17,7 +19,10 @@ export const COLOR_PALETTE = [
   '#5c5c5c', // 8: Deep Slate
   '#404040', // 9: Dark Gray
   '#282828', // 10: Charcoal
-  '#181818'  // 11: Far Horizon
+  '#181818', // 11: Far Horizon
+  '#fff0bd', // 12: Muzzle Flash Incandescent Cream Gold Core
+  '#ffab2e', // 13: Muzzle Flash Fiery Amber Gold Plumes
+  '#e65c00'  // 14: Muzzle Flash Outer Orange Smoke
 ];
 
 // ULTRA-HD 32x32 BRICK TEXTURE (X-Walls)
@@ -178,4 +183,7 @@ export function renderAsciiView(screen, player) {
       }
     }
   }
+
+  drawWeapon(screen);
+
 }

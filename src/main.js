@@ -1,5 +1,6 @@
 import { initInput } from './input.js';
 import { updatePlayer, player } from './player.js';
+import { updateWeapon } from './weapon.js'; // 1. Import updateWeapon!
 import { startLoop } from './loop.js';
 import { renderTopDown, renderMinimap } from './render2d.js';
 import { buildGlyphAtlas } from './glyphAtlas.js';
@@ -28,17 +29,16 @@ window.addEventListener('keydown', (e) => {
 });
 
 startLoop(
-  (dt) => updatePlayer(dt),
+  (dt) => {
+    updatePlayer(dt);
+    updateWeapon(dt); // 2. Update weapon state & recoil animation!
+  },
   () => {
     if (show3D) {
-      // 1. Render 3D ASCII View
       renderAsciiView(asciiScreen, player);
       drawScreen(ctx, asciiScreen, atlas);
-
-      // 2. Render Pure Monochromatic Radar Minimap Overlay!
       renderMinimap(ctx, canvas);
     } else {
-      // Render 2D Top-Down View
       renderTopDown(ctx, canvas);
     }
   }
