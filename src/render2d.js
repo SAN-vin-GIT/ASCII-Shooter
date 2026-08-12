@@ -53,3 +53,61 @@ export function renderTopDown(ctx, canvas) {
   ctx.lineTo(endX, endY);
   ctx.stroke();
 }
+
+// Pure Monochromatic Circular Radar Minimap (Top-Right Corner)
+export function renderMinimap(ctx, canvas) {
+  const radius = 60;
+  const radarX = canvas.width - radius - 20;
+  const radarY = radius + 20;
+  const scale = 8; // Minimap grid scale
+
+  ctx.save();
+
+  // 1. Circular Clip Window
+  ctx.beginPath();
+  ctx.arc(radarX, radarY, radius, 0, Math.PI * 2);
+  ctx.fillStyle = '#080808';
+  ctx.fill();
+  ctx.clip();
+
+  // 2. Render Monochrome Map Grid relative to Player
+  const offsetX = radarX - player.x * scale;
+  const offsetY = radarY - player.y * scale;
+
+  for (let cy = 0; cy < MAP_H; cy++) {
+    for (let cx = 0; cx < MAP_W; cx++) {
+      const tile = tileAt(cx, cy);
+      if (tile !== TILE_WALL) continue;
+
+      const sx = cx * scale + offsetX;
+      const sy = cy * scale + offsetY;
+
+      // Draw Wall blocks in sleek Silver/Gray
+      ctx.fillStyle = '#888888';
+      ctx.fillRect(sx, sy, scale - 0.5, scale - 0.5);
+    }
+  }
+
+  // 3. Player Radar Dot & Vision Direction Pointer
+  ctx.fillStyle = '#ffffff';
+  ctx.beginPath();
+  ctx.arc(radarX, radarY, 3.5, 0, Math.PI * 2);
+  ctx.fill();
+
+  const dirLen = 12;
+  ctx.strokeStyle = '#cccccc';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(radarX, radarY);
+  ctx.lineTo(radarX + Math.cos(player.angle) * dirLen, radarY + Math.sin(player.angle) * dirLen);
+  ctx.stroke();
+
+  ctx.restore();
+
+  // 4. Sleek Silver Outer Ring
+  ctx.strokeStyle = '#aaaaaa';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.arc(radarX, radarY, radius, 0, Math.PI * 2);
+  ctx.stroke();
+}
