@@ -1,7 +1,7 @@
 export const TILE_EMPTY = 0;
 export const TILE_WALL  = 1;
 
-export const MAP_W = 80;
+export const MAP_W = 64;
 export const MAP_H = 64;
 
 // Generates a complete 64x64 grid

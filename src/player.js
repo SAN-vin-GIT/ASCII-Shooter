@@ -18,7 +18,7 @@ export function updatePlayer(dt) {
     player.angle += player.turnSpeed * dt;
   }
 
-  // 2. Compute Direction Vectors
+  // 2. Direction Vectors
   const cos = Math.cos(player.angle);
   const sin = Math.sin(player.angle);
 
@@ -35,17 +35,17 @@ export function updatePlayer(dt) {
     dy -= sin;
   }
 
-  // Strafe Left / Right (A / D) - Sidestepping
+  // Strafe Left / Right (A / D)
   if (isDown('KeyA')) {
-    dx += sin;  // Strafe Left
+    dx += sin;
     dy -= cos;
   }
   if (isDown('KeyD')) {
-    dx -= sin;  // Strafe Right
+    dx -= sin;
     dy += cos;
   }
 
-  // Normalize movement vector if walking diagonally
+  // Normalize diagonal speed
   if (dx !== 0 || dy !== 0) {
     const len = Math.hypot(dx, dy);
     dx /= len;
@@ -56,17 +56,15 @@ export function updatePlayer(dt) {
   dx *= player.moveSpeed * dt;
   dy *= player.moveSpeed * dt;
 
-  // 4. Axis-Separated Bumper Collisions (Wall-Sliding)
+  // 4. Axis-Separated Bumper Collisions
   const radius = 0.2;
 
-  // Try X movement
   const newX = player.x + dx;
   const signX = Math.sign(dx);
   if (!isSolid(newX + signX * radius, player.y)) {
     player.x = newX;
   }
 
-  // Try Y movement
   const newY = player.y + dy;
   const signY = Math.sign(dy);
   if (!isSolid(player.x, newY + signY * radius)) {
