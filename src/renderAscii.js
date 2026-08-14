@@ -109,11 +109,13 @@ export function renderAsciiView(screen, player) {
   const unclippedStarts = new Float32Array(screen.cols);
   const lineHeights = new Float32Array(screen.cols);
 
+  const pitchOffset = player.pitch || 0;
+
   for (let cx = 0; cx < screen.cols; cx++) {
     const dist = rays[cx].dist || 0.0001;
     const lh = Math.max(6, (screen.rows * PROJECTION_SCALE) / dist);
     lineHeights[cx] = lh;
-    unclippedStarts[cx] = (screen.rows - lh) / 2;
+    unclippedStarts[cx] = (screen.rows - lh) / 2 + pitchOffset;
   }
 
   for (let cx = 0; cx < screen.cols; cx++) {
@@ -177,7 +179,8 @@ export function renderAsciiView(screen, player) {
         const charIdx = ASCII_RAMP.indexOf(char);
         setCell(screen, cx, cy, charIdx !== -1 ? charIdx : 1, colorIdx);
       } else {
-        const floorRatio = (cy - screen.rows / 2) / (screen.rows / 2);
+        const horizon = screen.rows / 2 + pitchOffset;
+        const floorRatio = Math.max(0.01, (cy - horizon) / Math.max(1, screen.rows - horizon));
         const floorColorIdx = Math.min(11, Math.floor((1 - floorRatio) * 5) + 7);
         setCell(screen, cx, cy, ASCII_RAMP.indexOf('.'), floorColorIdx);
       }

@@ -125,7 +125,8 @@ const PUMP_SHOTGUN = [
 
 let mouseFired = false;
 window.addEventListener('mousedown', (e) => {
-  if (e.button === 0) { // Left Click
+  // Only register gunshot clicks while actively playing with Pointer Lock!
+  if (e.button === 0 && document.pointerLockElement !== null) {
     mouseFired = true;
   }
 });
@@ -151,6 +152,12 @@ export function shootWeapon() {
 }
 
 export function updateWeapon(dt) {
+  // Discard queued clicks if pointer lock is not active (e.g. while unpausing)
+  if (document.pointerLockElement === null) {
+    mouseFired = false;
+    return;
+  }
+
   if (isDown('Space') || mouseFired) {
     mouseFired = false;
     shootWeapon();
