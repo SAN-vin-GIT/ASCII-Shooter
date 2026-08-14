@@ -1,15 +1,14 @@
 import { castRays } from './raycast.js';
 import { clearScreen, setCell } from './asciiScreen.js';
-import { drawWeapon } from './weapon.js'; // 1. Add import!
-
+import { drawWeapon, drawAmmoHUD } from './weapon.js';
 
 // ASCII Ramp with Slope Anti-aliasing Glyphs ('/', '\', '-')
 export const ASCII_RAMP = " #%-|=+*@W.O/\\0$_~^";
 
-// 12-shade high-contrast depth palette
+// Rich High-Contrast Depth & Weapon Palette
 export const COLOR_PALETTE = [
   '#000000', // 0: Black Background
-  '#ffffff', // 1: Ultra White
+  '#ffffff', // 1: Ultra White Specular
   '#f4f4f4', // 2: Bright White
   '#e0e0e0', // 3: Off White
   '#cccccc', // 4: Light Gray
@@ -22,7 +21,15 @@ export const COLOR_PALETTE = [
   '#181818', // 11: Far Horizon
   '#fff0bd', // 12: Muzzle Flash Incandescent Cream Gold Core
   '#ffab2e', // 13: Muzzle Flash Fiery Amber Gold Plumes
-  '#e65c00'  // 14: Muzzle Flash Outer Orange Smoke
+  '#e65c00', // 14: Muzzle Flash Outer Orange Smoke
+  '#8b4513', // 15: Rich Dark Walnut Wood
+  '#cd853f', // 16: Polished Amber Walnut Wood Highlight
+  '#ffd700', // 17: Shimmering Gold Brass Accents
+  '#b8860b', // 18: Dark Metallic Brass
+  '#4a5568', // 19: Blued Steel Barrel
+  '#718096', // 20: Bright Steel Barrel Highlight
+  '#2d3748', // 21: Dark Gunmetal Receiver
+  '#e53e3e'  // 22: Crimson Red Shotgun Shell Casing
 ];
 
 // ULTRA-HD 32x32 BRICK TEXTURE (X-Walls)
@@ -188,5 +195,5 @@ export function renderAsciiView(screen, player) {
   }
 
   drawWeapon(screen);
-
+  drawAmmoHUD(screen);
 }

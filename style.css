@@ -4,19 +4,16 @@
   box-sizing: border-box;
 }
 
-body {
+html, body {
   background-color: #000;
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 canvas#screen {
+  display: block;
   width: 100vw;
   height: 100vh;
-  object-fit: contain; /* Keeps aspect ratio clean without distortion */
   image-rendering: pixelated;
 }

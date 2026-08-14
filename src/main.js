@@ -16,9 +16,21 @@ initInput(canvas);
 const fontSize = 8;
 const atlas = buildGlyphAtlas(ASCII_RAMP, COLOR_PALETTE, fontSize, 'monospace');
 
-const cols = Math.floor(canvas.width / atlas.cellW);
-const rows = Math.floor(canvas.height / atlas.cellH);
-const asciiScreen = createScreen(cols, rows);
+let cols = Math.floor(canvas.width / atlas.cellW);
+let rows = Math.floor(canvas.height / atlas.cellH);
+let asciiScreen = createScreen(cols, rows);
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  cols = Math.floor(canvas.width / atlas.cellW);
+  rows = Math.floor(canvas.height / atlas.cellH);
+  asciiScreen = createScreen(cols, rows);
+}
+
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
 
 // Toggle 2D vs 3D view with the 'M' key
 let show3D = true;
